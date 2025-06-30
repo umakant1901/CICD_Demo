@@ -1,0 +1,28 @@
+name: Maven CI/CD - Local Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build and Package JAR
+        run: mvn clean package
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ci-cd-demo-jar
+          path: target/*jar-with-dependencies.jar
